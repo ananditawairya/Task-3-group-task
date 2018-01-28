@@ -1,106 +1,73 @@
 import React,{Component} from 'react';
-var firebase=require('firebase');
-var config = {
-    apiKey: "AIzaSyBvieaLYKpAIQ-RUulhwlpCdPUfgroWR8A",
-    authDomain: "survey-8d8a3.firebaseapp.com",
-    databaseURL: "https://survey-8d8a3.firebaseio.com",
-    projectId: "survey-8d8a3",
-    storageBucket: "survey-8d8a3.appspot.com",
-    messagingSenderId: "137526420490"
-  };
-  firebase.initializeApp(config);
 
-class Authen extends Component {
 
-  signup(){
-    const email=this.refs.email.value;  //retrieving value of email
-    const password=this.refs.password.value; //retrieving vale of password using refs
-    console.log(email,password);
 
-    const auth=firebase.auth()
-    const promise=auth.createUserWithEmailAndPassword(email,password);
-    promise
-    .then(user=>{
-      var err="Welcome"+user.email
-      firebase.database().ref('User/'+user.uid).set({
-        email:user.email
-    });
-    console.log(user);
-    this.setState({err:err});
+  class Registration extends Component {
 
-  });
-  promise.catch(e=>{
-    var err=e.message;
-    console.log(err);
-    this.setState({err:err});
-  });
-
-  }
-
-  login(){
-    const email=this.refs.email.value;
-    const password=this.refs.password.value;
-    console.log(email,password);
-
-    const auth=firebase.auth();
-    const promise=auth.signInWithEmailAndPassword(email,password);
-    promise.then(user=>{
-      var err="Welcome "+user.email;
-      var lin=document.getElementById('login');
-      lin.classList.add('hide');
-      this.setState({err:err});
-    });
-    promise.catch(e=>{
-      var err=e.message;
-      console.log(err);
-      this.setState({err:err});
-    });
-  }
-
-  google(){
-    console.log('I am from google');
-    var provider = new firebase.auth.GoogleAuthProvider();
-    var promise=firebase.auth().signInWithPopup(provider);
-
-    promise.then(result=>{
-      var user=result.user;
-      console.log(result);
-
-      firebase.database().ref('users/'+user.uid).set({
-        email:user.email,
-        name:user.displayName
+    signup(){
+        var data={
+        fname:this.refs.fname.value,
+        lname:this.refs.lname.value,
+        uname:this.refs.uname.value,
+        password:this.refs.password.value, //retrieving vale of password using refs
+        email:this.refs.email.value,  //retrieving value of email
+        phone:this.refs.phone.value,
+      };
+      const fname=this.refs.fname.value;
+      const lname=this.refs.lname.value;
+      const uname=this.refs.uname.value;
+      const password=this.refs.password.value; //retrieving vale of password using refs
+      const email=this.refs.email.value;  //retrieving value of email
+      const phone=this.refs.phone.value;
+      console.log(data);
+    return fetch('https://api.dankness95.hasura-app.io/register/'+fname+'/'+lname+'/'+uname+'/'+password+'/'+email+'/'+phone, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data})
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson.success;
+      })
+      .catch((error) => {
+        console.error(error);
       });
-
-    });
-    promise.catch(e=>{
-      var msg=e.message;
-      console.log(msg);
-
-    });
   }
 
-  constructor(props){
-    super(props);
 
-    this.state = {err:''};
-    this.login=this.login.bind(this);
-    this.signup=this.signup.bind(this);
-      this.google=this.google.bind(this);
-  }
-  render(){
-    return(
-      <div className="content">
-        <h1 className="head"><em>LOGIN</em></h1>
-      <input id="email" ref="email" type="email" placeholder="Enter your email"/> <br/>
-      <input id="password" ref="password" type="password" placeholder="Password" /><br/>
-      <p>{this.state.err}</p>
-      <button id="login"onClick={this.login}>Log In</button>&nbsp;&nbsp;&nbsp;
-      <button onClick={this.signup}>Sign Up</button>
-      <br/><br/>
-      <button id="google" onClick={this.google} className="google">Signup with Google</button>
+
+
+
+
+    constructor(props){
+      super(props);
+
+      this.state = {err:''};
+
+      this.signup=this.signup.bind(this);
+
+
+    }
+    render(){
+      return(
+        <div className="content">
+
+        <h1 className="head"><em>Sign Up</em></h1>
+        <input id="fname" ref="fname" name="fname" type="text" placeholder="First Name"/> <br/>
+        <input id="lname" ref="lname" name="lname" type="text" placeholder="Last Name"/> <br/>
+        <input id="uname" ref="uname" name="uname" type="text" placeholder="User Name"/> <br/>
+        <input id="password" ref="password" name="password" type="password" placeholder="Password" /><br/>
+        <input id="email" ref="email" type="email" name="email" placeholder="Email"/> <br/>
+        <input id="phone" ref="phone" type="text" name="phone" placeholder="Phone no" /><br/>
+        <p>{this.state.err}</p>
+        <input type="button" className="button" onClick={this.signup} value="Sign Up" />
+
+
       </div>
-    );
+      );
+    }
   }
-}
 
-export default Authen;
+  export default Registration
