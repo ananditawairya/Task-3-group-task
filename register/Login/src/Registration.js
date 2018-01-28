@@ -10,9 +10,9 @@ var config = {
   };
   firebase.initializeApp(config);
 
-  class Login extends Component {
+class Authen extends Component {
 
-    signup(){
+  signup(){
     const email=this.refs.email.value;  //retrieving value of email
     const password=this.refs.password.value; //retrieving vale of password using refs
     console.log(email,password);
@@ -38,82 +38,69 @@ var config = {
   }
 
   login(){
-  const email=this.refs.email.value;
-  const password=this.refs.password.value;
-  console.log(email,password);
+    const email=this.refs.email.value;
+    const password=this.refs.password.value;
+    console.log(email,password);
 
-  const auth=firebase.auth();
-  const promise=auth.signInWithEmailAndPassword(email,password);
-  promise.then(user=>{
-    var err="Welcome "+user.email;
-    var lout=document.getElementById('logout');
-    lout.classList.remove('hide');
-    var lin=document.getElementById('login');
-    lin.classList.add('hide');
-    this.setState({err:err});
-  });
-  promise.catch(e=>{
-    var err=e.message;
-    console.log(err);
-    this.setState({err:err});
-  });
-}
-
-
-
-    google(){
-      console.log('I am from google');
-      var provider = new firebase.auth.GoogleAuthProvider();
-      var promise=firebase.auth().signInWithPopup(provider);
-
-      promise.then(result=>{
-        var user=result.user;
-        console.log(result);
-
-        firebase.database().ref('users/'+user.uid).set({
-          email:user.email,
-          name:user.displayName
-        });
-
-      });
-      promise.catch(e=>{
-        var msg=e.message;
-        console.log(msg);
-
-      });
-    }
-
-
-
-
-
-    constructor(props){
-      super(props);
-
-      this.state = {err:''};
-
-      this.signup=this.signup.bind(this);
-      this.signup=this.signup.bind(this);
-      this.google=this.google.bind(this);
-    }
-    render(){
-      return(
-        <div className="content">
-          {//<form method="post" action="">
-          }
-        <h1 className="head"><em>Login</em></h1>
-        <input id="uname" ref="uname" name="uname" type="text" placeholder="User Name"/> <br/>
-        <input id="password" ref="password" name="password" type="password" placeholder="Password" /><br/>
-        <p>{this.state.err}</p>
-          <button id="login"onClick={this.login}>Log In</button>&nbsp;&nbsp;&nbsp;
-                <button onClick={this.signup}>Sign Up</button>&nbsp;&nbsp;&nbsp;
-                  <br/><br/>
-          <button id="google" onClick={this.google} className="button">Signup with Google</button>
-        <br/>
-
-      </div>
-      );
-    }
+    const auth=firebase.auth();
+    const promise=auth.signInWithEmailAndPassword(email,password);
+    promise.then(user=>{
+      var err="Welcome "+user.email;
+      var lin=document.getElementById('login');
+      lin.classList.add('hide');
+      this.setState({err:err});
+    });
+    promise.catch(e=>{
+      var err=e.message;
+      console.log(err);
+      this.setState({err:err});
+    });
   }
 
-  export default Login
+  google(){
+    console.log('I am from google');
+    var provider = new firebase.auth.GoogleAuthProvider();
+    var promise=firebase.auth().signInWithPopup(provider);
+
+    promise.then(result=>{
+      var user=result.user;
+      console.log(result);
+
+      firebase.database().ref('users/'+user.uid).set({
+        email:user.email,
+        name:user.displayName
+      });
+
+    });
+    promise.catch(e=>{
+      var msg=e.message;
+      console.log(msg);
+
+    });
+  }
+
+  constructor(props){
+    super(props);
+
+    this.state = {err:''};
+    this.login=this.login.bind(this);
+    this.signup=this.signup.bind(this);
+      this.google=this.google.bind(this);
+  }
+  render(){
+    return(
+      <div className="content">
+        <h1 className="head"><em>LOGIN</em></h1>
+      <input id="email" ref="email" type="email" placeholder="Enter your email"/> <br/>
+      <input id="password" ref="password" type="password" placeholder="Password" /><br/>
+      <p>{this.state.err}</p>
+      <button id="login"onClick={this.login}>Log In</button>&nbsp;&nbsp;&nbsp;
+      <button onClick={this.signup}>Sign Up</button>
+      <br/><br/>
+      <button id="google" onClick={this.google} className="google">Signup with Google</button>
+      </div>
+    );
+  }
+}
+
+export default Authen;

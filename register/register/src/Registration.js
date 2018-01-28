@@ -75,7 +75,7 @@ var config = {
     render(){
       return(
         <div className="content">
-          <form method="post" action="">
+
         <h1 className="head"><em>Sign Up</em></h1>
         <input id="fname" ref="fname" name="fname" type="text" placeholder="First Name"/> <br/>
         <input id="lname" ref="lname" name="lname" type="text" placeholder="Last Name"/> <br/>
@@ -84,10 +84,9 @@ var config = {
         <input id="email" ref="email" type="email" name="email" placeholder="Email"/> <br/>
         <input id="phone" ref="phone" type="text" name="phone" placeholder="Phone no" /><br/>
         <p>{this.state.err}</p>
-
         <input type="submit" className="button" onSubmit={this.signup} value="Sign Up" />
         &nbsp;&nbsp;&nbsp;
-        </form>
+        <br/>
         <br/>
         <button className="button" id="google" onClick={this.google} >Signup with Google</button>
 
