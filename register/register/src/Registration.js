@@ -13,51 +13,37 @@ var config = {
   class Registration extends Component {
 
     signup(){
-      const email=this.refs.email.value;  //retrieving value of email
+        var data={
+        fname:this.refs.fname.value,
+        lname:this.refs.lname.value,
+        uname:this.refs.uname.value,
+        password:this.refs.password.value, //retrieving vale of password using refs
+        email:this.refs.email.value,  //retrieving value of email
+        phone:this.refs.phone.value,
+      };
+      const fname=this.refs.fname.value;
+      const lname=this.refs.lname.value;
+      const uname=this.refs.uname.value;
       const password=this.refs.password.value; //retrieving vale of password using refs
-      console.log(email,password);
-
-      const auth=firebase.auth()
-      const promise=auth.createUserWithEmailAndPassword(email,password);
-      promise
-      .then(user=>{
-        var err="Welcome"+user.email
-        firebase.database().ref('User/'+user.uid).set({
-          email:user.email
+      const email=this.refs.email.value;  //retrieving value of email
+      const phone=this.refs.phone.value;
+      console.log(data);
+    return fetch('https://api.dankness95.hasura-app.io/register/'+fname+'/'+lname+'/'+uname+'/'+password+'/'+email+'/'+phone, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data})
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson.success;
+      })
+      .catch((error) => {
+        console.error(error);
       });
-      console.log(user);
-      this.setState({err:err});
+  }
 
-    });
-    promise.catch(e=>{
-      var err=e.message;
-      console.log(err);
-      this.setState({err:err});
-    });
-
-    }
-
-    google(){
-      console.log('I am from google');
-      var provider = new firebase.auth.GoogleAuthProvider();
-      var promise=firebase.auth().signInWithPopup(provider);
-
-      promise.then(result=>{
-        var user=result.user;
-        console.log(result);
-
-        firebase.database().ref('users/'+user.uid).set({
-          email:user.email,
-          name:user.displayName
-        });
-
-      });
-      promise.catch(e=>{
-        var msg=e.message;
-        console.log(msg);
-
-      });
-    }
 
 
 
@@ -70,7 +56,7 @@ var config = {
 
       this.signup=this.signup.bind(this);
 
-        this.google=this.google.bind(this);
+
     }
     render(){
       return(
@@ -84,11 +70,8 @@ var config = {
         <input id="email" ref="email" type="email" name="email" placeholder="Email"/> <br/>
         <input id="phone" ref="phone" type="text" name="phone" placeholder="Phone no" /><br/>
         <p>{this.state.err}</p>
-        <input type="submit" className="button" onSubmit={this.signup} value="Sign Up" />
-        &nbsp;&nbsp;&nbsp;
-        <br/>
-        <br/>
-        <button className="button" id="google" onClick={this.google} >Signup with Google</button>
+        <input type="button" className="button" onClick={this.signup} value="Sign Up" />
+        
 
       </div>
       );
