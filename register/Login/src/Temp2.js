@@ -21,7 +21,7 @@ class Authen extends Component {
     const password=this.refs.password.value;
     var x="Invalid credentials";
     fetch('https://api.dankness95.hasura-app.io/mobile_login/'+uname+'/'+password).then((response) => response.text())
-      .then((responseText) => {
+      .then((responseText) => response.text(){
         console.log(responseText);
          x= responseText;
       })

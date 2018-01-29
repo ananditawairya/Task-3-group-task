@@ -91,8 +91,6 @@ input[type="password"].focus {
 }
 
 .button {
-
-width: 35% 35%;
 display: inline-block;
 padding: 10px 20px 10px 16px;
 border: 1px solid #018dc4;

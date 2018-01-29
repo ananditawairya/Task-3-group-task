@@ -36,7 +36,11 @@ import React,{Component} from 'react';
       });
   }
 
+login(){
 
+window.location.href = 'https://auth.dankness95.hasura-app.io/ui/?=http://localhost:3000/Home'
+
+}
 
 
 
@@ -62,7 +66,10 @@ import React,{Component} from 'react';
         <input id="email" ref="email" type="email" name="email" placeholder="Email"/> <br/>
         <input id="phone" ref="phone" type="text" name="phone" placeholder="Phone no" /><br/>
         <p>{this.state.err}</p>
-        <input type="button" className="button" onClick={this.signup} value="Sign Up" />
+        <input type="button" className="button" onClick={this.signup} value="Sign Up" /><br/><br/>
+        <div>Have an account already?</div><br/>
+          <input type="button" className="button" onClick={this.login} value="Login" />
+
 
 
       </div>

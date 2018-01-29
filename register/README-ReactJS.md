@@ -14,9 +14,5 @@ cd login
 
 npm start
 
-this will open a login page for you now on entering your credentials you can have yourself verified as soon as you click login 
-
-if you want to register you can click on signup which will redirect you to signup page
-
-and as per the information you will be directed to your homepage
+this will open a register page for you now on entering your details you can have yourself registered or if you already have a login then click login and as per the information you will be directed to your homepage
 
