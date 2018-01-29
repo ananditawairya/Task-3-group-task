@@ -39,6 +39,10 @@ export default class ToolbarExample extends React.Component {
 
   handleChange = (event, index, value) => this.setState({value});
 
+  logout(){
+    window.location.href = '/';
+  }
+
   render() {
     return (
 
@@ -48,7 +52,7 @@ export default class ToolbarExample extends React.Component {
           <ToolbarGroup>
             <SearchBar
               style={{
-                
+
                 margin: '0 auto',
                 maxWidth: 1000,
 
@@ -71,6 +75,7 @@ export default class ToolbarExample extends React.Component {
               <FlatButton
                 label="Logout"
                 labelStyle = {Login}
+                onClick={this.logout}
                 />
 
           </ToolbarGroup>
